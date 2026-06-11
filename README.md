@@ -22,13 +22,29 @@ Práctica para crear un contenedor PostgreSQL mediante Docker dentro de GitHub C
 3. Cree o abra el Codespace de la rama `main`.
 4. Espere hasta que Visual Studio Code termine de cargar.
 
+## Comprobar Docker Compose
+
+Ejecute:
+
+```bash
+docker --version
+docker compose version
+```
+
+Si aparece `docker: unknown command: docker compose`, instale el complemento:
+
+```bash
+sudo apt update
+sudo apt install docker-compose-v2 -y
+```
+
+Luego repita `docker compose version`.
+
 ## Crear el contenedor con Docker
 
 En la terminal ejecute:
 
 ```bash
-docker --version
-docker compose version
 docker compose up -d
 ```
 
@@ -61,27 +77,15 @@ Para salir escriba `\q`.
 
 ## Administrar el contenedor
 
-Detenerlo:
-
 ```bash
 docker compose stop
-```
-
-Volver a iniciarlo:
-
-```bash
 docker compose start
-```
-
-Eliminarlo sin borrar el volumen:
-
-```bash
 docker compose down
 ```
 
 ## Archivos principales
 
-- `.devcontainer/devcontainer.json`: instala Docker en Codespaces.
+- `.devcontainer/devcontainer.json`: configura Docker en Codespaces.
 - `docker-compose.yml`: define el contenedor PostgreSQL.
 - `database/init.sql`: crea la tabla y el registro inicial.
 
@@ -90,8 +94,8 @@ docker compose down
 1. Repositorio `Devops_7193` creado.
 2. Opción para crear el Codespace.
 3. Codespace abierto en Visual Studio Code.
-4. Reconstrucción del entorno con Docker.
-5. Resultado de `docker --version` y `docker compose version`.
+4. Instalación y versión de Docker.
+5. Instalación y versión de Docker Compose.
 6. Ejecución de `docker compose up -d`.
 7. Resultado de `docker ps` con `devops_postgres` activo.
 8. Resultado de la consulta `SELECT * FROM estudiantes;`.
