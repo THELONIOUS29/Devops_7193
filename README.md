@@ -23,7 +23,15 @@ Proyecto de práctica para crear y abrir un contenedor de desarrollo en GitHub C
 
 ## Verificar la base de datos
 
-En la terminal del Codespace ejecute:
+Primero compruebe que PostgreSQL acepta conexiones:
+
+```bash
+pg_isready -h database -p 5432 -U devops_user -d devops_db
+```
+
+El resultado esperado es `database:5432 - accepting connections`.
+
+Después conéctese a la base de datos:
 
 ```bash
 psql -h database -U devops_user -d devops_db
@@ -41,16 +49,10 @@ Dentro de PostgreSQL, ejecute:
 SELECT * FROM estudiantes;
 ```
 
-Debe aparecer el registro inicial de la tabla. Para salir escriba:
+Debe aparecer el registro `Estudiante Demo`. Para salir escriba:
 
 ```text
 \q
-```
-
-También puede comprobar los contenedores activos con:
-
-```bash
-docker compose ps
 ```
 
 ## Archivos principales
@@ -67,7 +69,7 @@ Capture las siguientes pantallas para el informe:
 2. Pestaña **Codespaces** con la opción **Create codespace on main**.
 3. Pantalla de creación y carga del Codespace.
 4. Codespace abierto en Visual Studio Code desde el navegador.
-5. Resultado de `docker compose ps` mostrando `app` y `database` activos.
+5. Resultado de `pg_isready` indicando que PostgreSQL acepta conexiones.
 6. Resultado de `SELECT * FROM estudiantes;` mostrando el registro almacenado.
 7. Estructura final de archivos del repositorio.
 
