@@ -1,78 +1,101 @@
 # Devops_7193
 
-Proyecto de práctica para crear y abrir un contenedor de desarrollo en GitHub Codespaces con una base de datos PostgreSQL.
+Práctica para crear un contenedor PostgreSQL mediante Docker dentro de GitHub Codespaces.
 
 ## Componentes
 
-- Contenedor de desarrollo basado en Ubuntu.
-- Base de datos PostgreSQL 16.
-- Base de datos: `devops_db`.
-- Usuario: `devops_user`.
-- Contraseña de práctica: `devops_7193`.
-- Tabla inicial: `estudiantes`.
+- GitHub Codespaces como entorno de trabajo.
+- Docker y Docker Compose.
+- Contenedor `devops_postgres`.
+- PostgreSQL 16.
+- Base de datos `devops_db`.
+- Usuario `devops_user`.
+- Contraseña de práctica `devops_7193`.
+- Tabla inicial `estudiantes`.
 
-> Las credenciales incluidas son únicamente para esta práctica académica.
+> Las credenciales son únicamente para esta práctica académica.
 
-## Abrir el contenedor en Codespaces
+## Abrir Codespaces
 
-1. En la página principal del repositorio, presione el botón verde **Code**.
-2. Seleccione la pestaña **Codespaces**.
-3. Presione **Create codespace on main**.
-4. Espere mientras GitHub prepara el entorno y levanta los contenedores.
-5. Cuando aparezca Visual Studio Code en el navegador, espere a que termine la configuración inicial.
+1. En el repositorio, presione **Code**.
+2. Abra la pestaña **Codespaces**.
+3. Cree o abra el Codespace de la rama `main`.
+4. Espere hasta que Visual Studio Code termine de cargar.
 
-## Verificar la base de datos
+## Crear el contenedor con Docker
 
-Primero compruebe que PostgreSQL acepta conexiones:
-
-```bash
-pg_isready -h database -p 5432 -U devops_user -d devops_db
-```
-
-El resultado esperado es `database:5432 - accepting connections`.
-
-Después conéctese a la base de datos:
+En la terminal ejecute:
 
 ```bash
-psql -h database -U devops_user -d devops_db
+docker --version
+docker compose version
+docker compose up -d
 ```
 
-Cuando solicite la contraseña, escriba:
+Docker descargará PostgreSQL y creará el contenedor. Compruebe su estado con:
 
-```text
-devops_7193
+```bash
+docker compose ps
+docker ps
 ```
 
-Dentro de PostgreSQL, ejecute:
+El contenedor `devops_postgres` debe aparecer con estado `healthy`.
 
-```sql
-SELECT * FROM estudiantes;
+## Consultar la base de datos
+
+Ejecute la consulta desde el contenedor:
+
+```bash
+docker exec devops_postgres psql -U devops_user -d devops_db -c "SELECT * FROM estudiantes;"
 ```
 
-Debe aparecer el registro `Estudiante Demo`. Para salir escriba:
+Debe aparecer el registro `Estudiante Demo`.
 
-```text
-\q
+Para abrir la consola interactiva de PostgreSQL:
+
+```bash
+docker exec -it devops_postgres psql -U devops_user -d devops_db
+```
+
+Para salir escriba `\q`.
+
+## Administrar el contenedor
+
+Detenerlo:
+
+```bash
+docker compose stop
+```
+
+Volver a iniciarlo:
+
+```bash
+docker compose start
+```
+
+Eliminarlo sin borrar el volumen:
+
+```bash
+docker compose down
 ```
 
 ## Archivos principales
 
-- `.devcontainer/devcontainer.json`: configuración utilizada por Codespaces.
-- `docker-compose.yml`: definición del entorno y PostgreSQL.
-- `database/init.sql`: creación de la tabla y datos iniciales.
+- `.devcontainer/devcontainer.json`: instala Docker en Codespaces.
+- `docker-compose.yml`: define el contenedor PostgreSQL.
+- `database/init.sql`: crea la tabla y el registro inicial.
 
 ## Evidencias del proceso
 
-Capture las siguientes pantallas para el informe:
+1. Repositorio `Devops_7193` creado.
+2. Opción para crear el Codespace.
+3. Codespace abierto en Visual Studio Code.
+4. Reconstrucción del entorno con Docker.
+5. Resultado de `docker --version` y `docker compose version`.
+6. Ejecución de `docker compose up -d`.
+7. Resultado de `docker ps` con `devops_postgres` activo.
+8. Resultado de la consulta `SELECT * FROM estudiantes;`.
 
-1. Repositorio `Devops_7193` creado en GitHub.
-2. Pestaña **Codespaces** con la opción **Create codespace on main**.
-3. Pantalla de creación y carga del Codespace.
-4. Codespace abierto en Visual Studio Code desde el navegador.
-5. Resultado de `pg_isready` indicando que PostgreSQL acepta conexiones.
-6. Resultado de `SELECT * FROM estudiantes;` mostrando el registro almacenado.
-7. Estructura final de archivos del repositorio.
+## Volver a abrir el entorno
 
-## Volver a abrir el contenedor
-
-Ingrese al repositorio, pulse **Code**, abra **Codespaces** y seleccione el Codespace existente. No es necesario crear uno nuevo cada vez.
+Entre al repositorio, pulse **Code**, abra **Codespaces** y seleccione el Codespace existente. Después ejecute `docker compose up -d` para asegurar que PostgreSQL esté iniciado.
