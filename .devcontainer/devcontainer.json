@@ -4,6 +4,9 @@
   "service": "app",
   "workspaceFolder": "/workspaces/Devops_7193",
   "shutdownAction": "stopCompose",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
   "forwardPorts": [5432],
   "portsAttributes": {
     "5432": {
