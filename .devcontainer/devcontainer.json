@@ -1,9 +1,13 @@
 {
-  "name": "Devops 7193 con PostgreSQL",
-  "dockerComposeFile": "../docker-compose.yml",
-  "service": "app",
-  "workspaceFolder": "/workspaces/Devops_7193",
-  "shutdownAction": "stopCompose",
+  "name": "Devops 7193 con Docker",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v2"
+    }
+  },
   "forwardPorts": [5432],
   "portsAttributes": {
     "5432": {
@@ -11,10 +15,10 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y postgresql-client",
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-azuretools.vscode-docker",
         "mtxr.sqltools",
         "mtxr.sqltools-driver-pg"
       ]
